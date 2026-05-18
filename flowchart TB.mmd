@@ -1,0 +1,17 @@
+flowchart TB
+    subgraph L["模型改造阶段：apply_expert_parallel"]
+        A1["获取 EP 通信上下文<br/>ep_group + ep_rank"] --> A2["遍历模型中的 MoE block"]
+        A2 --> A3["shard_experts<br/>按 ep_rank 切分专家参数"]
+        A3 --> A4["patch_forward<br/>替换 MoE forward"]
+    end
+
+    subgraph R["训练前向阶段：EP-aware MoE forward"]
+        B1["Router 计算<br/>selected_experts + routing_weights"] --> B2["构造 token dispatch 计划"]
+        B2 --> B3["all-to-all 分发 token"]
+        B3 --> B4["本地 experts 计算"]
+        B4 --> B5["all-to-all 回收结果"]
+        B5 --> B6["按 routing_weights 加权合并"]
+    end
+
+    L ~~~ R
+    A4 -.-> B1

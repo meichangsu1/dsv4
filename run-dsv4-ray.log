@@ -1,0 +1,251 @@
+ma-user@A3-syn-25:~/twinkle/cookbook/transformers$ sh dsv4-ray.sh
+============================10.246.63.35, 29400, 10.246.63.35========================
+===============================master node start ray server============================
+Usage stats collection is enabled. To disable this, add `--disable-usage-stats` to the command that starts the cluster, or run the following command: `ray disable-usage-stats` before starting the cluster. See https://docs.ray.io/en/master/cluster/usage-stats.html for more details.
+
+Local node IP: 10.246.63.35
+
+--------------------
+Ray runtime started.
+--------------------
+
+Next steps
+  To add another node to this Ray cluster, run
+    ray start --address='10.246.63.35:29400'
+
+  To connect to this Ray cluster:
+    import ray
+    ray.init(_node_ip_address='10.246.63.35')
+
+  To terminate the Ray runtime, run
+    ray stop
+
+  To view the status of the cluster, use
+    ray status
+ray_status_output: No cluster status. It may take a few seconds for the Ray internal services to start up.
+nodes_count: 0
+waiting for ray to allocate 32 devices. current devices: 0
+ray_status_output: ======== Autoscaler status: 2026-05-14 18:24:58.631279 ========
+Node status
+---------------------------------------------------------------
+Active:
+ 1 node_4e927d701ad10ac14e8d2da0f409db0226745e0e74ca0986a0824209
+ 1 node_ba271e9a69e9be21e71c3189fba92f6ecf47fb25a9313f4fb19f50d2
+Pending:
+ (no pending nodes)
+Recent failures:
+ (no failures)
+
+Resources
+---------------------------------------------------------------
+Total Usage:
+ 0.0/1280.0 CPU
+ 0.0/32.0 NPU
+ 0B/5.51TiB memory
+ 0B/372.53GiB object_store_memory
+
+From request_resources:
+ (none)
+Pending Demands:
+ (no resource demands)
+nodes_count: 32
+ray cluster ready with 32 devices, npu 32.0
+======== Autoscaler status: 2026-05-14 18:24:58.631279 ========
+Node status
+---------------------------------------------------------------
+Active:
+ 1 node_4e927d701ad10ac14e8d2da0f409db0226745e0e74ca0986a0824209
+ 1 node_ba271e9a69e9be21e71c3189fba92f6ecf47fb25a9313f4fb19f50d2
+Pending:
+ (no pending nodes)
+Recent failures:
+ (no failures)
+
+Resources
+---------------------------------------------------------------
+Total Usage:
+ 0.0/1280.0 CPU
+ 0.0/32.0 NPU
+ 0B/5.51TiB memory
+ 0B/372.53GiB object_store_memory
+
+From request_resources:
+ (none)
+Pending Demands:
+ (no resource demands)
+Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.7.1+cpu).
+2026-05-14 18:25:10,554 INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.246.63.35:29400...
+2026-05-14 18:25:10,567 INFO worker.py:2012 -- Connected to Ray cluster.
+/home/ma-user/.local/lib/python3.11/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[2026-05-14 18:25:36][INFO:twinkle] nodes: ['4e927d70', 'ba271e9a']
+[2026-05-14 18:25:36][INFO:twinkle] node_ranks: [0, 1]
+[2026-05-14 18:25:36][INFO:twinkle] node2pg keys: [0, 1]
+(raylet) It looks like you're creating a detached actor in an anonymous namespace. In order to access this actor in the future, you will need to explicitly connect to this namespace with ray.init(namespace="10c122a0-670c-45a3-945b-b9d735e118fb", ...)
+[2026-05-14 18:25:36][INFO:twinkle] ⚠️ Using local initialization of class: <class 'twinkle.dataset.base.Dataset'>, please make sure the class does not need remote execution.
+Map: 100%|█████████████████████| 1000/1000 [00:00<00:00, 36290.75 examples/s]
+Map: 100%|██████████████████████| 1000/1000 [00:00<00:00, 1131.85 examples/s]
+Filter: 100%|██████████████████| 1000/1000 [00:00<00:00, 34767.97 examples/s]
+[2026-05-14 18:25:40][INFO:twinkle] ⚠️ Using local initialization of class: <class 'twinkle.dataloader.dataloader.DataLoader'>, please make sure the class does not need remote execution.
+(pid=206224, ip=10.246.63.36) Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.7.1+cpu).
+(TransformersModel( pid=193754, ip=10.246.63.36)   (model): DeepseekV4ForCausalLM(
+(TransformersModel( pid=193754, ip=10.246.63.36)     (model): DeepseekV4Model(
+(TransformersModel( pid=193754, ip=10.246.63.36)       (embed_tokens): Embedding(129280, 4096)
+(TransformersModel( pid=193754, ip=10.246.63.36)       (layers): ModuleList(
+(TransformersModel( pid=193754, ip=10.246.63.36)         (0-1): 2 x DeepseekV4DecoderLayer(
+(TransformersModel( pid=193754, ip=10.246.63.36)           (self_attn): DeepseekV4Attention(
+(TransformersModel( pid=193754, ip=10.246.63.36)             (q_a_proj): Linear(in_features=4096, out_features=1024, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (q_a_norm): DeepseekV4RMSNorm((1024,), eps=1e-06)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (q_b_proj): Linear(in_features=1024, out_features=32768, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (q_b_norm): DeepseekV4UnweightedRMSNorm()
+(TransformersModel( pid=193754, ip=10.246.63.36)             (kv_proj): Linear(in_features=4096, out_features=512, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (kv_norm): DeepseekV4RMSNorm((512,), eps=1e-06)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (o_a_proj): DeepseekV4GroupedLinear(in_features=4096, out_features=8192, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)             (o_b_proj): Linear(in_features=8192, out_features=4096, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)           )
+(TransformersModel( pid=193754, ip=10.246.63.36)           (mlp): DeepseekV4SparseMoeBlock(
+(TransformersModel( pid=193754, ip=10.246.63.36)             (gate): DeepseekV4HashRouter(
+(TransformersModel( pid=193754, ip=10.246.63.36)               (score_fn): SqrtSoftplusActivation()
+(TransformersModel( pid=193754, ip=10.246.63.36)             )
+(TransformersModel( pid=193754, ip=10.246.63.36)             (experts): DeepseekV4Experts(
+(TransformersModel( pid=193754, ip=10.246.63.36)               (act_fn): SiLUActivation()
+(TransformersModel( pid=193754, ip=10.246.63.36)             )
+(TransformersModel( pid=193754, ip=10.246.63.36)             (shared_experts): DeepseekV4MLP(
+(TransformersModel( pid=193754, ip=10.246.63.36)               (gate_proj): Linear(in_features=4096, out_features=2048, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)               (up_proj): Linear(in_features=4096, out_features=2048, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)               (down_proj): Linear(in_features=2048, out_features=4096, bias=False)
+(TransformersModel( pid=193754, ip=10.246.63.36)               (act_fn): SiLUActivation()
+(TransformersModel( pid=193754, ip=10.246.63.36)             )
+(TransformersModel( pid=193754, ip=10.246.63.36)           )
+(TransformersModel( pid=193754, ip=10.246.63.36)           (input_layernorm): DeepseekV4RMSNorm((4096,), eps=1e-06)
+(TransformersModel( pid=193754, ip=10.246.63.36)           (post_attention_layernorm): DeepseekV4RMSNorm((4096,), eps=1e-06)
+(TransformersModel( pid=193754, ip=10.246.63.36)           (attn_hc): DeepseekV4HyperConnection(
+(TransformersModel( pid=193754, ip=10.246.63.36)             (input_norm): DeepseekV4UnweightedRMSNorm()
+(TransformersModel( pid=193754, ip=10.246.63.36)           )
+(TransformersModel( pid=193754, ip=10.246.63.36)           (ffn_hc): DeepseekV4HyperConnection(
+(TransformersModel( pid=193754, ip=10.246.63.36)             (input_norm): DeepseekV4UnweightedRMSNorm()
+(TransformersModel( pid=193754, ip=10.246.63.36)           )
+(TransformersModel( pid=193754, ip=10.246.63.36)         )
+[pring model arch, omitted]
+Loading weights:   0%|          | 0/1285 [00:00<?, ?it/s]
+(TransformersModel( pid=663904) /home/ma-user/.local/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py:859: UserWarning: `_get_pg_default_device` will be deprecated, it only stays for backward-compatiblity reason. If you need to find a device for object collectives, please use `_get_object_coll_device`. If you need to query the device types supported by group, please use `_device_capability(group)`.  [repeated 7x across cluster]
+(TransformersModel( pid=663904)   warnings.warn( [repeated 7x across cluster]
+Loading weights:   1%|          | 15/1285 [00:06<09:00,  2.35it/s]
+Loading weights:   1%|          | 16/1285 [00:07<10:36,  1.99it/s]
+Loading weights:   3%|▎         | 38/1285 [00:13<07:03,  2.94it/s]
+Loading weights:   3%|▎         | 39/1285 [00:15<08:16,  2.51it/s]
+Loading weights:   6%|▌         | 71/1285 [00:21<05:13,  3.87it/s]
+Loading weights:   6%|▌         | 72/1285 [00:23<06:06,  3.31it/s]
+Loading weights:   8%|▊         | 98/1285 [00:29<05:20,  3.71it/s]
+Loading weights:   8%|▊         | 99/1285 [00:31<06:02,  3.27it/s]
+Loading weights:  10%|█         | 131/1285 [00:36<04:31,  4.25it/s]
+Loading weights:  10%|█         | 132/1285 [00:38<05:10,  3.71it/s]
+Loading weights:  12%|█▏        | 158/1285 [00:44<04:36,  4.08it/s]
+Loading weights:  12%|█▏        | 159/1285 [00:45<05:10,  3.63it/s]
+Loading weights:  15%|█▍        | 191/1285 [00:51<04:05,  4.46it/s]
+Loading weights:  15%|█▍        | 192/1285 [00:52<04:36,  3.96it/s]
+Loading weights:  17%|█▋        | 218/1285 [00:58<04:17,  4.14it/s]
+Loading weights:  17%|█▋        | 219/1285 [01:00<04:50,  3.67it/s]
+Loading weights:  20%|█▉        | 251/1285 [01:06<03:55,  4.40it/s]
+Loading weights:  20%|█▉        | 252/1285 [01:07<04:24,  3.90it/s]
+Loading weights:  22%|██▏       | 278/1285 [01:13<04:09,  4.04it/s]
+Loading weights:  22%|██▏       | 279/1285 [01:15<04:45,  3.53it/s]
+Loading weights:  24%|██▍       | 311/1285 [01:21<03:46,  4.30it/s]
+Loading weights:  24%|██▍       | 312/1285 [01:22<04:09,  3.90it/s]
+Loading weights:  26%|██▋       | 338/1285 [01:29<03:58,  3.97it/s]
+Loading weights:  26%|██▋       | 339/1285 [01:30<04:19,  3.64it/s]
+Loading weights:  29%|██▉       | 371/1285 [01:35<03:16,  4.66it/s]
+Loading weights:  29%|██▉       | 372/1285 [01:40<05:02,  3.02it/s]
+Loading weights:  31%|███       | 398/1285 [02:03<08:38,  1.71it/s]
+Loading weights:  31%|███       | 399/1285 [02:13<11:52,  1.24it/s]
+Loading weights:  34%|███▎      | 431/1285 [02:35<10:41,  1.33it/s]
+Loading weights:  34%|███▎      | 432/1285 [02:45<13:32,  1.05it/s]
+Loading weights:  36%|███▌      | 458/1285 [03:09<12:55,  1.07it/s]
+Loading weights:  36%|███▌      | 459/1285 [03:19<15:59,  1.16s/it]
+Loading weights:  38%|███▊      | 491/1285 [03:41<12:11,  1.09it/s]
+Loading weights:  38%|███▊      | 492/1285 [03:51<14:47,  1.12s/it]
+Loading weights:  40%|████      | 518/1285 [04:14<13:02,  1.02s/it]
+Loading weights:  40%|████      | 519/1285 [04:24<15:49,  1.24s/it]
+Loading weights:  43%|████▎     | 551/1285 [04:47<11:50,  1.03it/s]
+Loading weights:  43%|████▎     | 552/1285 [04:57<14:18,  1.17s/it]
+Loading weights:  45%|████▍     | 578/1285 [05:21<12:21,  1.05s/it]
+Loading weights:  45%|████▌     | 579/1285 [05:30<14:50,  1.26s/it]
+Loading weights:  48%|████▊     | 611/1285 [05:55<11:09,  1.01it/s]
+Loading weights:  48%|████▊     | 612/1285 [06:05<13:30,  1.20s/it]
+Loading weights:  50%|████▉     | 638/1285 [06:28<11:23,  1.06s/it]
+Loading weights:  50%|████▉     | 639/1285 [06:38<13:48,  1.28s/it]
+Loading weights:  52%|█████▏    | 671/1285 [07:03<10:27,  1.02s/it]
+Loading weights:  52%|█████▏    | 672/1285 [07:13<12:34,  1.23s/it]
+Loading weights:  54%|█████▍    | 698/1285 [07:37<10:39,  1.09s/it]
+Loading weights:  54%|█████▍    | 699/1285 [07:47<12:46,  1.31s/it]
+Loading weights:  57%|█████▋    | 731/1285 [08:13<09:32,  1.03s/it]
+Loading weights:  57%|█████▋    | 732/1285 [08:23<11:34,  1.26s/it]
+Loading weights:  59%|█████▉    | 758/1285 [08:48<09:44,  1.11s/it]
+Loading weights:  59%|█████▉    | 759/1285 [08:58<11:39,  1.33s/it]
+Loading weights:  62%|██████▏   | 791/1285 [09:23<08:38,  1.05s/it]
+Loading weights:  62%|██████▏   | 792/1285 [09:33<10:19,  1.26s/it]
+Loading weights:  64%|██████▎   | 818/1285 [09:58<08:40,  1.12s/it]
+Loading weights:  64%|██████▎   | 819/1285 [10:08<10:19,  1.33s/it]
+Loading weights:  66%|██████▌   | 851/1285 [10:33<07:35,  1.05s/it]
+Loading weights:  66%|██████▋   | 852/1285 [10:44<09:06,  1.26s/it]
+Loading weights:  68%|██████▊   | 878/1285 [11:08<07:34,  1.12s/it]
+Loading weights:  68%|██████▊   | 879/1285 [11:18<08:59,  1.33s/it]
+Loading weights:  71%|███████   | 911/1285 [11:44<06:31,  1.05s/it]
+Loading weights:  71%|███████   | 912/1285 [11:54<07:51,  1.26s/it]
+Loading weights:  73%|███████▎  | 938/1285 [12:19<06:29,  1.12s/it]
+Loading weights:  73%|███████▎  | 939/1285 [12:29<07:45,  1.34s/it]
+Loading weights:  76%|███████▌  | 971/1285 [12:55<05:35,  1.07s/it]
+Loading weights:  76%|███████▌  | 972/1285 [13:06<06:42,  1.29s/it]
+Loading weights:  78%|███████▊  | 998/1285 [13:31<05:26,  1.14s/it]
+Loading weights:  78%|███████▊  | 999/1285 [13:41<06:27,  1.35s/it]
+Loading weights:  80%|████████  | 1031/1285 [14:06<04:29,  1.06s/it]
+Loading weights:  80%|████████  | 1032/1285 [14:17<05:21,  1.27s/it]
+Loading weights:  82%|████████▏ | 1058/1285 [14:41<04:14,  1.12s/it]
+Loading weights:  82%|████████▏ | 1059/1285 [14:51<05:01,  1.34s/it]
+Loading weights:  85%|████████▍ | 1091/1285 [15:17<03:24,  1.05s/it]
+Loading weights:  85%|████████▍ | 1092/1285 [15:27<04:03,  1.26s/it]
+Loading weights:  87%|████████▋ | 1118/1285 [15:52<03:07,  1.12s/it]
+Loading weights:  87%|████████▋ | 1119/1285 [16:01<03:42,  1.34s/it]
+Loading weights:  90%|████████▉ | 1151/1285 [16:27<02:21,  1.05s/it]
+Loading weights:  90%|████████▉ | 1152/1285 [16:37<02:47,  1.26s/it]
+Loading weights:  92%|█████████▏| 1178/1285 [17:02<02:00,  1.12s/it]
+Loading weights:  92%|█████████▏| 1179/1285 [17:12<02:21,  1.34s/it]
+Loading weights:  94%|█████████▍| 1211/1285 [17:38<01:18,  1.06s/it]
+Loading weights:  94%|█████████▍| 1212/1285 [17:49<01:33,  1.28s/it]
+Loading weights:  96%|█████████▋| 1238/1285 [18:14<00:53,  1.14s/it]
+Loading weights:  96%|█████████▋| 1239/1285 [18:24<01:02,  1.37s/it]
+Loading weights:  99%|█████████▉| 1271/1285 [18:50<00:14,  1.07s/it]
+Loading weights: 100%|██████████| 1285/1285 [19:00<00:00,  1.13it/s]
+(TransformersModel( pid=206234, ip=10.246.63.36)   inv_perm = torch.empty_like(perm)
+[2026-05-14 18:48:21][INFO:twinkle] Current is step 0 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '1.7 minutes', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:27][INFO:twinkle] Current is step 2 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '111 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:33][INFO:twinkle] Current is step 4 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '118 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:39][INFO:twinkle] Current is step 6 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '124 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:45][INFO:twinkle] Current is step 8 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '129 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:51][INFO:twinkle] Current is step 10 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '135 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:48:57][INFO:twinkle] Current is step 12 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '141 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:02][INFO:twinkle] Current is step 14 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '147 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:08][INFO:twinkle] Current is step 16 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '153 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:14][INFO:twinkle] Current is step 18 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '159 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:20][INFO:twinkle] Current is step 20 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '164 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:26][INFO:twinkle] Current is step 22 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '170 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:31][INFO:twinkle] Current is step 24 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '176 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:37][INFO:twinkle] Current is step 26 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '182 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:43][INFO:twinkle] Current is step 28 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '187 seconds', 'speed': '0.00 iters/s'}
+[2026-05-14 18:49:49][INFO:twinkle] Current is step 30 of 32, metric: {'loss': '0.0000', 'iters': 0, 'total time elapse': '193 seconds', 'speed': '0.00 iters/s'}
+[end exit]
+
+============26节点================
+ma-user@A3-syn-26:~/twinkle/cookbook/transformers$ sh dsv4-ray.sh
+============================10.246.63.35, 29400, 10.246.63.36========================
+Local node IP: 10.246.63.36
+
+--------------------
+Ray runtime started.
+--------------------
+
+To terminate the Ray runtime, run
+  ray stop
+No cluster status. It may take a few seconds for the Ray internal services to start up.
+success connect ray cluster
+[end exit]

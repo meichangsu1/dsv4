@@ -1,0 +1,133 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Expert Parallel Flow" id="19qtwtkn67ycMg_FMnK5">
+    <mxGraphModel dx="1548" dy="982" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="b0cYulnjiVJr-kO5gfme-67" parent="1" style="swimlane;whiteSpace=wrap;html=1;rounded=1;startSize=36;fillColor=#e8f0fe;strokeColor=#4f6bed;fontStyle=1;" value="模型改造阶段：apply_expert_parallel" vertex="1">
+          <mxGeometry height="470" width="360" x="80" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-68" parent="b0cYulnjiVJr-kO5gfme-67" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4f6bed;" value="获取 EP 通信上下文&lt;br&gt;ep_group + ep_rank" vertex="1">
+          <mxGeometry height="60" width="250" x="55" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-69" parent="b0cYulnjiVJr-kO5gfme-67" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4f6bed;" value="遍历模型中的 MoE block" vertex="1">
+          <mxGeometry height="60" width="250" x="55" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-70" parent="b0cYulnjiVJr-kO5gfme-67" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4f6bed;" value="shard_experts&lt;br&gt;按 ep_rank 切分专家参数" vertex="1">
+          <mxGeometry height="60" width="250" x="55" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-71" parent="b0cYulnjiVJr-kO5gfme-67" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#4f6bed;" value="patch_forward&lt;br&gt;替换 MoE forward" vertex="1">
+          <mxGeometry height="60" width="250" x="55" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-72" edge="1" parent="b0cYulnjiVJr-kO5gfme-67" source="b0cYulnjiVJr-kO5gfme-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4f6bed;" target="b0cYulnjiVJr-kO5gfme-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-73" edge="1" parent="b0cYulnjiVJr-kO5gfme-67" source="b0cYulnjiVJr-kO5gfme-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4f6bed;" target="b0cYulnjiVJr-kO5gfme-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-74" edge="1" parent="b0cYulnjiVJr-kO5gfme-67" source="b0cYulnjiVJr-kO5gfme-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4f6bed;" target="b0cYulnjiVJr-kO5gfme-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-75" parent="1" style="swimlane;whiteSpace=wrap;html=1;rounded=1;startSize=36;fillColor=#eaf7ea;strokeColor=#2f7d32;fontStyle=1;" value="训练前向阶段：EP-aware MoE forward" vertex="1">
+          <mxGeometry height="570" width="380" x="540" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-76" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="Router 计算&lt;br&gt;selected_experts + routing_weights" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-77" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="构造 token dispatch 计划" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-78" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="all-to-all 分发 token" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-79" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="本地 experts 计算" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-80" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="all-to-all 回收结果" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-81" parent="b0cYulnjiVJr-kO5gfme-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2f7d32;" value="按 routing_weights 加权合并" vertex="1">
+          <mxGeometry height="60" width="250" x="65" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-82" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f7d32;" target="b0cYulnjiVJr-kO5gfme-77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-83" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f7d32;" target="b0cYulnjiVJr-kO5gfme-78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-84" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f7d32;" target="b0cYulnjiVJr-kO5gfme-79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-85" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f7d32;" target="b0cYulnjiVJr-kO5gfme-80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-86" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f7d32;" target="b0cYulnjiVJr-kO5gfme-81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-87" edge="1" parent="b0cYulnjiVJr-kO5gfme-75" source="b0cYulnjiVJr-kO5gfme-76" style="endArrow=none;dashed=1;html=1;rounded=0;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;exitX=1;exitY=0.9;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="360" y="430" as="sourcePoint" />
+            <mxPoint x="490" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-88" parent="1" style="swimlane;whiteSpace=wrap;html=1;rounded=1;startSize=36;fillColor=#fff7ed;strokeColor=#d97706;fontStyle=1;" value="Router 兼容层：DeepSeek V4 routing" vertex="1">
+          <mxGeometry height="490" width="450" x="1030" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-89" parent="b0cYulnjiVJr-kO5gfme-88" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d97706;" value="Router 接口兼容" vertex="1">
+          <mxGeometry height="50" width="250" x="70" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-90" parent="b0cYulnjiVJr-kO5gfme-88" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#d97706;" value="router.forward 支持 input_ids？" vertex="1">
+          <mxGeometry height="80" width="200" x="95" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-91" parent="b0cYulnjiVJr-kO5gfme-88" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#d97706;" value="传入 hidden_states + input_ids" vertex="1">
+          <mxGeometry height="60" width="160" x="20" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-92" parent="b0cYulnjiVJr-kO5gfme-88" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d97706;" value="仅传入 hidden_states" vertex="1">
+          <mxGeometry height="60" width="150" x="215" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-93" parent="b0cYulnjiVJr-kO5gfme-88" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#d97706;fontStyle=1;" value="Hash Routing&lt;br&gt;token id 查表选 experts" vertex="1">
+          <mxGeometry height="60" width="160" x="20" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-94" parent="b0cYulnjiVJr-kO5gfme-88" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d97706;" value="Top-K Routing&lt;br&gt;scores top-k 选 experts" vertex="1">
+          <mxGeometry height="60" width="150" x="215" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-95" edge="1" parent="b0cYulnjiVJr-kO5gfme-88" source="b0cYulnjiVJr-kO5gfme-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d97706;" target="b0cYulnjiVJr-kO5gfme-90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-96" edge="1" parent="b0cYulnjiVJr-kO5gfme-88" source="b0cYulnjiVJr-kO5gfme-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d97706;fontColor=#d97706;" target="b0cYulnjiVJr-kO5gfme-91" value="是">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-97" edge="1" parent="b0cYulnjiVJr-kO5gfme-88" source="b0cYulnjiVJr-kO5gfme-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d97706;fontColor=#d97706;" target="b0cYulnjiVJr-kO5gfme-92" value="否">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-98" edge="1" parent="b0cYulnjiVJr-kO5gfme-88" source="b0cYulnjiVJr-kO5gfme-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d97706;" target="b0cYulnjiVJr-kO5gfme-93">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-99" edge="1" parent="b0cYulnjiVJr-kO5gfme-88" source="b0cYulnjiVJr-kO5gfme-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d97706;" target="b0cYulnjiVJr-kO5gfme-94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-100" edge="1" parent="1" source="b0cYulnjiVJr-kO5gfme-76" style="endArrow=none;dashed=1;html=1;rounded=0;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0;exitDx=0;exitDy=0;" target="b0cYulnjiVJr-kO5gfme-88" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="850" y="160" as="sourcePoint" />
+            <mxPoint x="900" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-101" edge="1" parent="1" source="b0cYulnjiVJr-kO5gfme-71" style="endArrow=none;dashed=1;html=1;rounded=0;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="b0cYulnjiVJr-kO5gfme-75" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="640" as="sourcePoint" />
+            <mxPoint x="500" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-102" edge="1" parent="1" source="b0cYulnjiVJr-kO5gfme-71" style="endArrow=none;dashed=1;html=1;rounded=0;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0.003;entryY=0.014;entryDx=0;entryDy=0;entryPerimeter=0;" target="b0cYulnjiVJr-kO5gfme-75" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="500" y="140" as="sourcePoint" />
+            <mxPoint x="550" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b0cYulnjiVJr-kO5gfme-103" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;shadow=0;fillStyle=auto;labelBackgroundColor=none;strokeWidth=3;strokeColor=#FF3333;" value="" vertex="1">
+          <mxGeometry height="530" width="530" x="1000" y="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
