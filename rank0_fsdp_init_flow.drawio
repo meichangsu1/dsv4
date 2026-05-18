@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" modified="2026-05-18T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="rank0-fsdp-init-flow" name="Rank0 FSDP Init Flow">
+    <mxGraphModel dx="1200" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1400" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="开始训练" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="300" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rank" value="当前 Rank" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="285" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rank0" value="加载完整预训练权重" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="210" width="190" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="other" value="基于 config 构建空模型" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="385" width="190" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wrap" value="FSDP2 包裹并切分模型" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="300" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="broadcast" value="由 Rank0 广播分片权重" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="210" width="210" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="buffers" value="同步非 persistent buffer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="320" width="210" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="local" value="各 Rank 仅持有本地分片" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="430" width="210" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="train" value="开始训练" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="430" width="120" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="e-start-rank" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="start" target="rank">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-rank-rank0" value="Rank0" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="rank" target="rank0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-rank-other" value="其他 Rank" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="rank" target="other">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-rank0-wrap" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="rank0" target="wrap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-other-wrap" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="other" target="wrap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-wrap-broadcast" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="wrap" target="broadcast">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-broadcast-buffers" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="broadcast" target="buffers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-buffers-local" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="buffers" target="local">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-local-train" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1" source="local" target="train">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
