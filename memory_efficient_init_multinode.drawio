@@ -1,130 +1,358 @@
-<mxfile host="app.diagrams.net" modified="2026-06-11T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
-  <diagram id="multinode-local-rank0" name="多机local_rank0分发">
-    <mxGraphModel dx="1400" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1100" math="0" shadow="0">
+<mxfile host="app.diagrams.net" pages="4">
+  <diagram name="整体流程含EP" id="WhDZMMiCiZZ2yAmUDHSC">
+    <mxGraphModel dx="2874" dy="1823" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="memory_efficient_init 多机加载与本机分发" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="250" y="30" width="800" height="44" as="geometry" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="多机本机分发" id="LlRuwcEiglH7pvAPWGDM">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1500" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=22;fontStyle=1" value="多机场景：每台机器 local_rank 0 加载完整权重并在本机分发" vertex="1">
+          <mxGeometry height="40" width="880" x="310" y="30" as="geometry" />
         </mxCell>
-        <mxCell id="note-top" value="关键点：多机时不是只有全局 rank 0 加载权重，而是每台机器的 local_rank 0 各自加载完整权重，并在本机内分发给其他 local ranks。" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="270" y="90" width="760" height="76" as="geometry" />
+        <mxCell id="cluster" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" value="多机训练集群" vertex="1">
+          <mxGeometry height="60" width="200" x="650" y="95" as="geometry" />
         </mxCell>
-        <mxCell id="cluster" value="多机训练集群" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="540" y="205" width="220" height="62" as="geometry" />
+        <mxCell id="node0" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node 0" vertex="1">
+          <mxGeometry height="310" width="390" x="80" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="node0" value="Node 0" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="80" y="335" width="340" height="390" as="geometry" />
+        <mxCell id="r00" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;from_pretrained&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="70" width="180" x="105" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="node1" value="Node 1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="480" y="335" width="340" height="390" as="geometry" />
+        <mxCell id="r01" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="20" y="195" as="geometry" />
         </mxCell>
-        <mxCell id="noden" value="Node N" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="880" y="335" width="340" height="390" as="geometry" />
+        <mxCell id="r02" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 2&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="140" y="195" as="geometry" />
         </mxCell>
-        <mxCell id="n0-r0" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" vertex="1" parent="node0">
-          <mxGeometry x="80" y="60" width="180" height="78" as="geometry" />
+        <mxCell id="r0x" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="260" y="195" as="geometry" />
         </mxCell>
-        <mxCell id="n0-r1" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="node0">
-          <mxGeometry x="30" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="n0-rx" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="node0">
-          <mxGeometry x="180" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="n0-local" value="本机内广播 / 分发&lt;br&gt;local group" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" vertex="1" parent="node0">
-          <mxGeometry x="88" y="305" width="164" height="54" as="geometry" />
-        </mxCell>
-        <mxCell id="n1-r0" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" vertex="1" parent="node1">
-          <mxGeometry x="80" y="60" width="180" height="78" as="geometry" />
-        </mxCell>
-        <mxCell id="n1-r1" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="node1">
-          <mxGeometry x="30" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="n1-rx" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="node1">
-          <mxGeometry x="180" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="n1-local" value="本机内广播 / 分发&lt;br&gt;local group" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" vertex="1" parent="node1">
-          <mxGeometry x="88" y="305" width="164" height="54" as="geometry" />
-        </mxCell>
-        <mxCell id="nn-r0" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" vertex="1" parent="noden">
-          <mxGeometry x="80" y="60" width="180" height="78" as="geometry" />
-        </mxCell>
-        <mxCell id="nn-r1" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="noden">
-          <mxGeometry x="30" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="nn-rx" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="noden">
-          <mxGeometry x="180" y="205" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="nn-local" value="本机内广播 / 分发&lt;br&gt;local group" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" vertex="1" parent="noden">
-          <mxGeometry x="88" y="305" width="164" height="54" as="geometry" />
-        </mxCell>
-        <mxCell id="wrap" value="所有 ranks 完成 FSDP2 / EP fully_shard&lt;br&gt;按 placement 只物化自己的参数 shard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="395" y="810" width="510" height="84" as="geometry" />
-        </mxCell>
-        <mxCell id="train" value="进入 LoRA / optimizer / training" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="500" y="960" width="300" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="legend1" value="绿色：本机 local_rank 0，负责加载完整权重" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13" vertex="1" parent="1">
-          <mxGeometry x="80" y="790" width="260" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="legend2" value="紫色：本机其他 ranks，只创建 meta 模型并接收 shard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" vertex="1" parent="1">
-          <mxGeometry x="80" y="845" width="310" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="c-node0" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="cluster" target="node0">
+        <mxCell id="r00-r01" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r01" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c-node1" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="cluster" target="node1">
+        <mxCell id="r00-r02" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r02" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c-noden" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="cluster" target="noden">
+        <mxCell id="r00-r0x" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r0x" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n0-e1" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node0" source="n0-r0" target="n0-r1">
+        <mxCell id="node1" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node 1" vertex="1">
+          <mxGeometry height="310" width="390" x="555" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;from_pretrained&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="70" width="180" x="105" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r11" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="20" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="r12" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 2&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="140" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="r1x" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="110" x="260" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="r10-r11" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r11" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n0-e2" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node0" source="n0-r0" target="n0-rx">
+        <mxCell id="r10-r12" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r12" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n0-e3" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node0" source="n0-r1" target="n0-local">
+        <mxCell id="r10-r1x" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r1x" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n0-e4" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node0" source="n0-rx" target="n0-local">
+        <mxCell id="nodedot" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node ..." vertex="1">
+          <mxGeometry height="310" width="390" x="1030" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="rx0" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;from_pretrained&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="70" width="180" x="105" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rx1" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="120" x="55" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="rxx" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="58" width="120" x="215" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="rx0-rx1" edge="1" parent="nodedot" source="rx0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="rx1" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n1-e1" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node1" source="n1-r0" target="n1-r1">
+        <mxCell id="rx0-rxx" edge="1" parent="nodedot" source="rx0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="rxx" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n1-e2" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node1" source="n1-r0" target="n1-rx">
+        <mxCell id="fsdp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" value="FSDP2 fully_shard 后&lt;br&gt;每个 rank 只保留自己的参数 shard" vertex="1">
+          <mxGeometry height="74" width="300" x="500" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="train" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" value="进入 LoRA / optimizer / training" vertex="1">
+          <mxGeometry height="74" width="260" x="920" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13" value="注意：不是全局只有 rank 0 加载；而是每台机器的 local_rank 0 作为本机 source rank，向同节点其他 local ranks 分发。" vertex="1">
+          <mxGeometry height="70" width="690" x="120" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster-node0" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="node0" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n1-e3" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node1" source="n1-r1" target="n1-local">
+        <mxCell id="cluster-node1" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="node1" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="n1-e4" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="node1" source="n1-rx" target="n1-local">
+        <mxCell id="cluster-nodedot" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="nodedot" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nn-e1" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="noden" source="nn-r0" target="nn-r1">
+        <mxCell id="node0-fsdp" edge="1" parent="1" source="node0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nn-e2" value="分发 shard" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="noden" source="nn-r0" target="nn-rx">
+        <mxCell id="node1-fsdp" edge="1" parent="1" source="node1" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nn-e3" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="noden" source="nn-r1" target="nn-local">
+        <mxCell id="nodedot-fsdp" edge="1" parent="1" source="nodedot" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nn-e4" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="noden" source="nn-rx" target="nn-local">
+        <mxCell id="fsdp-train" edge="1" parent="1" source="fsdp" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="train" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="node0-wrap" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="node0" target="wrap">
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="竖版整体流程含EP" id="nEq1J7aLqeVWZryaQ30H">
+    <mxGraphModel dx="2236" dy="-282" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" background="light-dark(#FFFFFF,transparent)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" value="memory_efficient_init 多机加载与本机分发" vertex="1">
+          <mxGeometry height="44" width="800" x="740" y="2060" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-2" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14" value="关键点：多机时不是只有全局 rank 0 加载权重，而是每台机器的 local_rank 0 各自加载完整权重，并在本机内分发给其他 local ranks。" vertex="1">
+          <mxGeometry height="76" width="760" x="760" y="2120" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" value="多机训练集群" vertex="1">
+          <mxGeometry height="62" width="220" x="1030" y="2235" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-4" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" value="Node 0" vertex="1">
+          <mxGeometry height="390" width="340" x="570" y="2365" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-5" parent="TSFdSZ2CAW3Ae67aAruC-4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" vertex="1">
+          <mxGeometry height="78" width="180" x="80" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-6" parent="TSFdSZ2CAW3Ae67aAruC-4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="30" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-7" parent="TSFdSZ2CAW3Ae67aAruC-4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="180" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-8" parent="TSFdSZ2CAW3Ae67aAruC-4" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" value="本机内广播 / 分发&lt;br&gt;local group" vertex="1">
+          <mxGeometry height="54" width="164" x="88" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-9" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-4" source="TSFdSZ2CAW3Ae67aAruC-5" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-6" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="node1-wrap" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="node1" target="wrap">
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-10" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-4" source="TSFdSZ2CAW3Ae67aAruC-5" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-7" value="分发 shard">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="noden-wrap" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="noden" target="wrap">
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-11" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-4" source="TSFdSZ2CAW3Ae67aAruC-6" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-8" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="wrap-train" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2" edge="1" parent="1" source="wrap" target="train">
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-12" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-4" source="TSFdSZ2CAW3Ae67aAruC-7" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-13" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" value="Node 1" vertex="1">
+          <mxGeometry height="390" width="340" x="970" y="2365" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-14" parent="TSFdSZ2CAW3Ae67aAruC-13" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" vertex="1">
+          <mxGeometry height="78" width="180" x="80" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-15" parent="TSFdSZ2CAW3Ae67aAruC-13" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="30" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-16" parent="TSFdSZ2CAW3Ae67aAruC-13" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="180" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-17" parent="TSFdSZ2CAW3Ae67aAruC-13" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" value="本机内广播 / 分发&lt;br&gt;local group" vertex="1">
+          <mxGeometry height="54" width="164" x="88" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-18" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-13" source="TSFdSZ2CAW3Ae67aAruC-14" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-15" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-19" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-13" source="TSFdSZ2CAW3Ae67aAruC-14" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-16" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-20" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-13" source="TSFdSZ2CAW3Ae67aAruC-15" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-21" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-13" source="TSFdSZ2CAW3Ae67aAruC-16" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-22" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;fontStyle=1" value="Node N" vertex="1">
+          <mxGeometry height="390" width="340" x="1370" y="2365" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-23" parent="TSFdSZ2CAW3Ae67aAruC-22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重&lt;br&gt;full state_dict" vertex="1">
+          <mxGeometry height="78" width="180" x="80" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-24" parent="TSFdSZ2CAW3Ae67aAruC-22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="30" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-25" parent="TSFdSZ2CAW3Ae67aAruC-22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型&lt;br&gt;接收 shard" vertex="1">
+          <mxGeometry height="70" width="130" x="180" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-26" parent="TSFdSZ2CAW3Ae67aAruC-22" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1" value="本机内广播 / 分发&lt;br&gt;local group" vertex="1">
+          <mxGeometry height="54" width="164" x="88" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-27" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-22" source="TSFdSZ2CAW3Ae67aAruC-23" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-24" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-28" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-22" source="TSFdSZ2CAW3Ae67aAruC-23" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-25" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-29" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-22" source="TSFdSZ2CAW3Ae67aAruC-24" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-30" edge="1" parent="TSFdSZ2CAW3Ae67aAruC-22" source="TSFdSZ2CAW3Ae67aAruC-25" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" value="所有 ranks 完成 FSDP2 / EP fully_shard&lt;br&gt;按 placement 只物化自己的参数 shard" vertex="1">
+          <mxGeometry height="84" width="510" x="885" y="2840" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" value="进入 LoRA / optimizer / training" vertex="1">
+          <mxGeometry height="70" width="300" x="990" y="2990" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13" value="绿色：本机 local_rank 0，负责加载完整权重" vertex="1">
+          <mxGeometry height="40" width="260" x="570" y="2820" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="紫色：本机其他 ranks，只创建 meta 模型并接收 shard" vertex="1">
+          <mxGeometry height="40" width="310" x="570" y="2875" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-35" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-3" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-36" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-3" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-37" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-3" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-38" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-4" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-31" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-39" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-13" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-31" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-40" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-22" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-31" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSFdSZ2CAW3Ae67aAruC-41" edge="1" parent="1" source="TSFdSZ2CAW3Ae67aAruC-31" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="TSFdSZ2CAW3Ae67aAruC-32" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="竖版多机本机分发" id="ilXVtwBSX5Lz3cYgBHDQ">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1100" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=22;fontStyle=1" value="多机场景：每台机器 local_rank 0 加载完整权重并在本机分发" vertex="1">
+          <mxGeometry height="40" width="880" x="110" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cluster" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" value="多机训练集群" vertex="1">
+          <mxGeometry height="60" width="200" x="450" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node 0" vertex="1">
+          <mxGeometry height="400" width="290" x="90" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="r00" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="62" width="180" x="55" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r01" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="r02" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 2&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="r0x" parent="node0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="r00-r01" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r01" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r01-r02" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r02" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r02-r0x" edge="1" parent="node0" source="r00" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r0x" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node 1" vertex="1">
+          <mxGeometry height="400" width="290" x="405" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="62" width="180" x="55" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r11" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="r12" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 2&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="r1x" parent="node1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="r10-r11" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r11" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r10-r12" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r12" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r10-r1x" edge="1" parent="node1" source="r10" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="r1x" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nodedot" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1" value="Node ..." vertex="1">
+          <mxGeometry height="400" width="290" x="720" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="rx0" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1" value="local_rank 0&lt;br&gt;加载完整权重" vertex="1">
+          <mxGeometry height="62" width="180" x="55" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rx1" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank 1&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="rxx" parent="nodedot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" value="local_rank ...&lt;br&gt;meta 模型" vertex="1">
+          <mxGeometry height="55" width="180" x="55" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="rx0-rx1" edge="1" parent="nodedot" source="rx0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="rx1" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx0-rxx" edge="1" parent="nodedot" source="rx0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="rxx" value="分发 shard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fsdp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" value="FSDP2 / EP fully_shard 后&lt;br&gt;每个 rank 只保留自己的参数 shard" vertex="1">
+          <mxGeometry height="78" width="370" x="365" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="train" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" value="进入 LoRA / optimizer / training" vertex="1">
+          <mxGeometry height="70" width="290" x="405" y="875" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13" value="source rank = 本机权重来源 rank。在这套实现里，它就是每台机器上的 local_rank 0，而不是全局 rank 0。" vertex="1">
+          <mxGeometry height="80" width="640" x="230" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="c0" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="node0" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="node1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cx" edge="1" parent="1" source="cluster" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="nodedot" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node0-fsdp" edge="1" parent="1" source="node0" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node1-fsdp" edge="1" parent="1" source="node1" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nodedot-fsdp" edge="1" parent="1" source="nodedot" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="fsdp" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fsdp-train" edge="1" parent="1" source="fsdp" style="endArrow=block;html=1;rounded=0;strokeWidth=2" target="train" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
